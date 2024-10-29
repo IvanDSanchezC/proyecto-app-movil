@@ -18,13 +18,13 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: '21'
 
       - name: Install dependencies
         run: npm install
 
       - name: Run tests (optional)
-        run: npm test
+        run: npm run test-report
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
