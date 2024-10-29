@@ -44,6 +44,32 @@ export default function ListarPQRs(): React.JSX.Element {
     }
   };
 
+  const fetchData2 = async () : Promise<void> => {
+    try {
+      console.log("UUID", userUuid);
+      setIsLoading(true);
+      const response = await fetchPqrs(userUuid);
+      console.log("Response from fetchPqrs:", response);
+  
+      // Check if response code is 200 and data is an array
+      if (response.code === 200 || response.code === 202) {
+        if (Array.isArray(response.data) && response.data.length > 0) {
+          console.log("Fetched PQR data:", response.data);
+          setPqrData(response.data);
+        } else {
+          console.info("There is no PQR data");
+          setPqrData([]);
+        }
+      } else {
+        console.info("Failed to fetch PQR data:", response.message || "No data available");
+      }
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Error fetching PQR data:", error);
+      setIsLoading(false);
+    }
+  };
+
   useFocusEffect(
     useCallback(() => {
       if (executeList) {

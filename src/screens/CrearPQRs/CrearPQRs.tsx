@@ -70,6 +70,32 @@ const CrearPQRs = (): React.JSX.Element => {
     }
   };
 
+  const handleAlmacenar = async () => {
+    if (!tipoSolicitud || !descripcion || !numeroTransaccion || !impactoProblema || !aceptoDatos) {
+      Alert.alert('Error', 'Por favor, completa todos los campos obligatorios marcados con *');
+      return;
+    }
+  
+    const pqrData = {
+      uuidUsuario: userUuid,
+      tipoSolicitud,
+      descripcion,
+      numeroTransaccion,
+      impactoProblema,
+      impactoSolucion,
+      canal: 'App móvil',
+    };
+  
+    try {
+      const response = await registerPqr(pqrData);
+      Alert.alert('Guardado', response.message);
+      navigation.navigate('ListarPQRs', { userUuid, userName, executeList: true });
+    } catch (error) {
+      console.debug('error', error);
+      Alert.alert('Error', 'Hubo un problema al guardar el PQR');
+    }
+  };
+
   return (
     <View style={{...styles.creatPqrContainer}} testID={screen}>
       <ScrollView contentContainerStyle={styles.crearPqrScrollcontainer}>
